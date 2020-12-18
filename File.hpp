@@ -8,7 +8,13 @@
 template<typename T>
 
 class File {
+    protected:
+        Client<T> *cdernier; // pointe sur le dernier client
+        Client<T> *cpremier;
+
     public:
+    File(): cdernier(nullptr),cpremier(nullptr){}////////////////////
+
     // destructeur
     ~File(){}
 

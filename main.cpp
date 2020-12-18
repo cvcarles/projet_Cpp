@@ -9,13 +9,11 @@
 
 using namespace std;
 
-template <typename T>
-
 
 int main(){
-    Client<T> c1;
-    c1.setClient(0.0);
-
+    Client<int> c1;
+    File<int> f1;
+    f1.enfiler(c1);
 }
 
 

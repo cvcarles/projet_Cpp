@@ -11,12 +11,11 @@ template<typename T>
 class FileChainee: public File<T> {
     private:
         //int max;        //nombre maximum de personne dans la file
-        Client<T> *cdernier; // pointe sur le dernier client
-        Client<T> *cpremier;
+        //Client<T> *cdernier; // pointe sur le dernier client
+        //Client<T> *cpremier;
 
     public:
     //constructeur
-    FileChainee(): cdernier(nullptr),cpremier(nullptr){}////////////////////
 
     // dupliquer
     Client<T> *dupliquer(const Client<T> *clt){
@@ -60,7 +59,7 @@ class FileChainee: public File<T> {
     virtual void defiler () override {
         assert(!this->estVide());               // on vérifie que la file n'est pas vide
 
-        Client<T> *p= this->cpremier;
+       // Client<T> *p= this->cpremier;
         this->cpremier=(this->cpremier)->getSuivant();
         delete p;
     }
