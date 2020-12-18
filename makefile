@@ -1,22 +1,20 @@
-CC = g++ 																		# le compilateur à utiliser
-CFLAGS = -std=gnu++11															# les options du compilateur
-LDFLAGS = 																		# les options pour l’éditeur de liens
-SRC = Client.cpp FileChainee.cpp Guichet.cpp Poste.cpp main.cpp					# les fichiers sources
-PROG = main 																	# nom de l’exécutable
-OBJS = $(SRC:.cpp=.o) 															# les .o qui en découlent
-.SUFFIXES: .c .o 																# lien entre les suffixes
+CC = g++
+CFLAGS = -Wall
+LDFLAGS = -lncurses
+SRC = main.cpp
+PROG = main
+OBJS = $(SRC:.cpp=.o)
+.SUFFIXES : .cpp .o
 
-all: $(PROG) 																	# étapes de compilation et d’édition de liens
-# $@ la cible $^ toutes les dépendances
+all: $(PROG)
 
-										
 $(PROG): $(OBJS)
-		$(CC) -o $@ $^ $(LDFLAGS)
+	$(CC)	-o $@ $^ $(LDFLAGS)
 
-FileChainee.o: FileChainee.hpp			# le lien entre .o et .c # $< dernière dépendance
-main.o: FileChainee.hpp
-										
-%.o: %.c
-		$(CC) $(CFLAGS) -c $<
+main.o: File.hpp FileChainee.hpp Client.hpp Poste.hpp Guichet.hpp
+%.o: %.cpp
+	$(CC) $(CFLAGS) -c $<
 
-.PHONY: clean # pour faire propre
+.PHONY: clean
+clean:
+	rm -f *.o *~ core $(PROG)

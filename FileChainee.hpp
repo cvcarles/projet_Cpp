@@ -11,13 +11,12 @@ template<typename T>
 class FileChainee: public File<T> {
     private:
         //int max;        //nombre maximum de personne dans la file
-        Client<T> *dernier; // pointe sur le dernier client
-        Client<T> *premier;
+        Client<T> *cdernier; // pointe sur le dernier client
+        Client<T> *cpremier;
 
     public:
     //constructeur
-    FileChainee(): dernier(nullptr),premier(nullptr){}////////////////////
-
+    FileChainee(): cdernier(nullptr),cpremier(nullptr){}////////////////////
 
     // dupliquer
     Client<T> *dupliquer(const Client<T> *clt){
@@ -28,10 +27,11 @@ class FileChainee: public File<T> {
 
     //constructeur de copie
     FileChainee(const FileChainee<T> &p) {
-        this->premier = dupliquer(p.premier);
-        //this->dernier = this->premier;
-        //while (this->last->getSuivant() != nullptr) this->last = this->last->getSuivant();
+        this->cpremier = dupliquer(p.cpremier);
+        this->cdernier = this->cpremier;
+        while (this->last->getSuivant() != nullptr) this->last = this->last->getSuivant();
     }
+    
     // destructeur
     ~FileChainee(){
         delete [] this ->lesClients;
@@ -48,26 +48,26 @@ class FileChainee: public File<T> {
     virtual void enfiler (const T &clt) override{
         Client<T> *p= new Client<T>(clt);
         if (this->estVide()){
-            this->premier = p;
-            this->dernier = p;
+            this->cpremier = p;
+            this->cdernier = p;
             }
         else {
-            this->dernier->setSuivant(p);
-            this->dernier = this->dernier->getSuivant();
+            this->cdernier->setSuivant(p);
+            this->cdernier = this->cdernier->getSuivant();
             }
     }
 
     virtual void defiler () override {
         assert(!this->estVide());               // on vérifie que la file n'est pas vide
 
-        Client<T> *p= this->premier;
-        this->premier=(this->premier)->getSuivant();
+        Client<T> *p= this->cpremier;
+        this->cpremier=(this->cpremier)->getSuivant();
         delete p;
     }
 
     virtual const T &premier() const override{
         assert(!this->estVide());                   // on vérifie que la file n'est pas vide
-        return (this->premier)->getClient();
+        return (this->cpremier)->getClient();
     }
 
 };

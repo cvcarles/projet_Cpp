@@ -8,15 +8,13 @@
 
 
 using namespace std;
+
 template <typename T>
 
 
 int main(){
     Client<T> c1;
     c1.setClient(0.0);
-
-
-
 
 }
 
