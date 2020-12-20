@@ -12,7 +12,7 @@ class Client{
 
     public:
         // constructeur
-        Client(const T &c, Client<T> *s=nullptr): clt(c),suivant(s){};
+        Client(const T &c, Client<T> *s=nullptr): suivant(s){clt=c;}
 
         // accesseurs
         const T &getClient() const{

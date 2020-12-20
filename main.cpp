@@ -11,9 +11,9 @@ using namespace std;
 
 
 int main(){
-    Client<int> c1;
-    File<int> f1;
-    f1.enfiler(c1);
+    int i=1;
+    FileChainee<int> f1;
+    f1.enfiler(i);
 }
 
 

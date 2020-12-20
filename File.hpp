@@ -13,6 +13,7 @@ class File {
         Client<T> *cpremier;
 
     public:
+
     File(): cdernier(nullptr),cpremier(nullptr){}////////////////////
 
     // destructeur
@@ -24,8 +25,8 @@ class File {
         return this->cdernier==nullptr;
     }
 
-    virtual void enfiler (const T &x){
-        Client<T> *p= new Client<T>(x, this->cdernier);
+    virtual void enfiler (const T &clt){
+        Client<T> *p= new Client<T>(clt, this->cdernier);
         this->cdernier=p;
     }
 
@@ -34,6 +35,7 @@ class File {
 
         Client<T> *p= this->cdernier;
         this->cdernier=this->cdernier->getSuivant();
+        delete p;
             
     }
 

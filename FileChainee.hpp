@@ -16,6 +16,8 @@ class FileChainee: public File<T> {
 
     public:
     //constructeur
+    //FileChainee();////////////////////
+    FileChainee():File<T>::File(){};
 
     // dupliquer
     Client<T> *dupliquer(const Client<T> *clt){
@@ -32,16 +34,14 @@ class FileChainee: public File<T> {
     }
     
     // destructeur
-    ~FileChainee(){
-        delete [] this ->lesClients;
-    }
+    ~FileChainee(){}
 
     //methode de base de manipulation de la pile
 
 
 
     virtual bool estVide() const override{
-        return this->dernier==nullptr;
+        return this->cdernier==nullptr;
     }
 
     virtual void enfiler (const T &clt) override{
@@ -59,7 +59,7 @@ class FileChainee: public File<T> {
     virtual void defiler () override {
         assert(!this->estVide());               // on vérifie que la file n'est pas vide
 
-       // Client<T> *p= this->cpremier;
+       Client<T> *p= this->cpremier;
         this->cpremier=(this->cpremier)->getSuivant();
         delete p;
     }
