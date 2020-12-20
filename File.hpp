@@ -22,7 +22,7 @@ class File {
     //methode de base de manipulation de la file
 
     virtual bool estVide() const{
-        return this->cdernier==nullptr;
+        return this->cpremier==nullptr;
     }
 
     virtual void enfiler (const T &clt){
@@ -41,6 +41,17 @@ class File {
 
     virtual const T &premier() const {
         assert(!this->estVide());                   // on vérifie que la file n'est pas vide
-        return (this->cdernier)->getClient();
+        return (this->cpremier)->getClient();
     }
+
+    const std::string toString() const {
+        std::ostringstream s;
+        s<<this->cpremier<<"dernier"<<this->cdernier;
+        return s.str();
+    }
+
+    friend std::ostream &operator << (std::ostream &f, const File<T> &F){
+        return f<<F.toString();
+    }
+    
 };

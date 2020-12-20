@@ -32,4 +32,15 @@ class Client{
             this->clt=x;
         }
 
+
+        const std::string toString() const {
+            std::ostringstream s;
+            s<<this->clt;
+            return s.str();
+        }
+
+        friend std::ostream &operator << (std::ostream &f, const Client<T> &c){
+            return f<<c.toString();
+        }
+
 };

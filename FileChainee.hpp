@@ -41,7 +41,7 @@ class FileChainee: public File<T> {
 
 
     virtual bool estVide() const override{
-        return this->cdernier==nullptr;
+        return this->cpremier==nullptr;
     }
 
     virtual void enfiler (const T &clt) override{
