@@ -61,16 +61,17 @@ class File {
     const std::string toString() const {
         const File<T>* temp=this;
         std::ostringstream s;
-        s<<"file: "<<temp->cpremier->getClient()<<" ";
-
-        while (temp->cpremier!=nullptr){
-            s<<"file: "<<temp->cpremier->getClient()<<" ";
-            Client<T> c=(temp->cpremier->getSuivant());
-            temp->cpremier->setClient(c);
-        }
+        s<<temp->cpremier->getClient()<<" ";
         return s.str();
     }
-
+/*    void afficher(){
+        std::cout<<"file: ";
+        while (!this.estVide()){
+            std::cout<<this.premier()<<",";
+                this.defiler();
+            }
+    }
+*/
     friend std::ostream &operator << (std::ostream &f, const File<T> &F){
         return f<<F.toString();
     }
