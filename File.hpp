@@ -59,12 +59,15 @@ class File {
     }
 
     const std::string toString() const {
+        const File<T>* temp=this;
         std::ostringstream s;
-        s<<"file: "<<this->cdernier<<" ";
-       // while (this->cpremier!=nullptr){
-         //   s<<"file: ";//<<this->cdernier<<" ";
-            //this->cpremier=this->cpremier->getSuivant();
-        //}
+        s<<"file: "<<temp->cpremier->getClient()<<" ";
+
+        while (temp->cpremier!=nullptr){
+            s<<"file: "<<temp->cpremier->getClient()<<" ";
+            Client<T> c=(temp->cpremier->getSuivant());
+            temp->cpremier->setClient(c);
+        }
         return s.str();
     }
 
