@@ -27,12 +27,15 @@ class File {
     }
 
     //constructeur de copie
-    File(const File<T> &f) {
+  /*  File<T>* (File<T>* &f) {
         this->cpremier = dupliquer(f.cpremier);
         this->cdernier = this->cpremier;
         while (this->cdernier->getSuivant() != nullptr) this->cdernier = this->cdernier->getSuivant();
-    }
+}
 
+    File<T>* &operator = (const File<T>* &file){
+        return this->cpremier=dupliquer(file->cpremier);}
+*/
     //methode de base de manipulation de la file
 
     virtual bool estVide() const{
@@ -59,19 +62,23 @@ class File {
     }
 
     const std::string toString() const {
+        
         const File<T>* temp=this;
         std::ostringstream s;
         s<<temp->cpremier->getClient()<<" ";
         return s.str();
     }
-/*    void afficher(){
+    /*
+    void afficher(){
+        File<T>* f1= this;
         std::cout<<"file: ";
-        while (!this.estVide()){
-            std::cout<<this.premier()<<",";
-                this.defiler();
+        while (!f1->estVide()){
+            std::cout<<f1->premier()<<",";
+                f1->defiler();
             }
-    }
-*/
+        std::cout<<std::endl;
+    }*/
+
     friend std::ostream &operator << (std::ostream &f, const File<T> &F){
         return f<<F.toString();
     }
