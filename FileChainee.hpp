@@ -16,22 +16,14 @@ class FileChainee: public File<T> {
 
     public:
     //constructeur
-    //FileChainee();////////////////////
     FileChainee():File<T>::File(){};
-
-    FileChainee(const FileChainee<T>* &f) {
-        this->cpremier = dupliquer(f.cpremier);
-        this->cdernier = this->cdernier;
-        while (this->cdernier->getSuivant() != nullptr) this->cdernier = this->cdernier->getSuivant();
-    }
-    
     
     // destructeur
     ~FileChainee(){}
 
+
+
     //methode de base de manipulation de la pile
-
-
 
     virtual bool estVide() const override{
         return this->cpremier==nullptr;
@@ -62,16 +54,7 @@ class FileChainee: public File<T> {
         return (this->cpremier)->getClient();
     }
 
-    FileChainee<T>* &operator = (const FileChainee<T>* &file){
-        return this->cpremier=dupliquer(file->cpremier);}
 
-    void afficher(){
-        FileChainee<T>* f1= this;
-        std::cout<<"file: ";
-        while (!f1->estVide()){
-            std::cout<<f1->premier()<<",";
-                f1->defiler();
-            }
-        std::cout<<std::endl;
-    }
+
+    
 };

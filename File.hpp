@@ -19,7 +19,7 @@ class File {
     // destructeur
     ~File(){}
 
-// dupliquer
+    // dupliquer
     Client<T> *dupliquer(const Client<T> *clt){
         if (clt==nullptr) return nullptr;
         Client<T> *p=dupliquer(clt->getSuivant());
@@ -27,16 +27,23 @@ class File {
     }
 
     //constructeur de copie
-  /*  File<T>* (File<T>* &f) {
+    File<T> (File<T> const &f) {
+        std::cout<<"consthey";
         this->cpremier = dupliquer(f.cpremier);
         this->cdernier = this->cpremier;
         while (this->cdernier->getSuivant() != nullptr) this->cdernier = this->cdernier->getSuivant();
 }
 
-    File<T>* &operator = (const File<T>* &file){
-        return this->cpremier=dupliquer(file->cpremier);}
-*/
-    //methode de base de manipulation de la file
+    // surcharge de l'opérateur = 
+    File<T>* &operator = (File<T>* const &file){
+        std::cout<<"opphey";
+        return this->cpremier=dupliquer(file->cpremier);
+    }
+
+
+
+
+    //methodes de base de manipulation de la file
 
     virtual bool estVide() const{
         return this->cpremier==nullptr;
@@ -68,17 +75,18 @@ class File {
         s<<temp->cpremier->getClient()<<" ";
         return s.str();
     }
-    /*
+    // afficher la file courante
     void afficher(){
-        File<T>* f1= this;
+        File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
+
         std::cout<<"file: ";
         while (!f1->estVide()){
             std::cout<<f1->premier()<<",";
                 f1->defiler();
             }
         std::cout<<std::endl;
-    }*/
-
+    }
+    //surcharge de l'opérateur <<
     friend std::ostream &operator << (std::ostream &f, const File<T> &F){
         return f<<F.toString();
     }
