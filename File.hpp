@@ -19,6 +19,20 @@ class File {
     // destructeur
     ~File(){}
 
+// dupliquer
+    Client<T> *dupliquer(const Client<T> *clt){
+        if (clt==nullptr) return nullptr;
+        Client<T> *p=dupliquer(clt->getSuivant());
+        return new Client<T>(clt->getClient(),p);
+    }
+
+    //constructeur de copie
+    File(const File<T> &f) {
+        this->cpremier = dupliquer(f.cpremier);
+        this->cdernier = this->cpremier;
+        while (this->cdernier->getSuivant() != nullptr) this->cdernier = this->cdernier->getSuivant();
+    }
+
     //methode de base de manipulation de la file
 
     virtual bool estVide() const{
@@ -33,8 +47,8 @@ class File {
     virtual void defiler (){
         assert(!this->estVide());               // on vérifie que la file n'est pas vide
 
-        Client<T> *p= this->cdernier;
-        this->cdernier=this->cdernier->getSuivant();
+        Client<T> *p= this->cpremier;
+        this->cpremier=this->cpremier->getSuivant();
         delete p;
             
     }
@@ -46,7 +60,11 @@ class File {
 
     const std::string toString() const {
         std::ostringstream s;
-        s<<this->cpremier<<"dernier"<<this->cdernier;
+        s<<"file: "<<this->cdernier<<" ";
+       // while (this->cpremier!=nullptr){
+         //   s<<"file: ";//<<this->cdernier<<" ";
+            //this->cpremier=this->cpremier->getSuivant();
+        //}
         return s.str();
     }
 

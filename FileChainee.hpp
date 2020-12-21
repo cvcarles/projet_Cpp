@@ -19,19 +19,7 @@ class FileChainee: public File<T> {
     //FileChainee();////////////////////
     FileChainee():File<T>::File(){};
 
-    // dupliquer
-    Client<T> *dupliquer(const Client<T> *clt){
-        if (clt==nullptr) return nullptr;
-        Client<T> *p=dupliquer(clt->getSuivant());
-        return new Client<T>(clt->getClient(),p);
-    }
-
-    //constructeur de copie
-    FileChainee(const FileChainee<T> &p) {
-        this->cpremier = dupliquer(p.cpremier);
-        this->cdernier = this->cpremier;
-        while (this->last->getSuivant() != nullptr) this->last = this->last->getSuivant();
-    }
+    
     
     // destructeur
     ~FileChainee(){}
