@@ -20,15 +20,10 @@ class File {
     ~File(){}
 
     // dupliquer
-    Client<T> *dupliquer(const Client<T> *clt){
-        if (clt==nullptr) return nullptr;
-        Client<T> *p=dupliquer(clt->getSuivant());
-        return new Client<T>(clt->getClient(),p);
-    }
+    Client<T> *dupliquer(const Client<T> *clt);
 
     //constructeur de copie
     File<T> (File<T> const &f) {
-        std::cout<<"consthey";
         this->cpremier = dupliquer(f.cpremier);
         this->cdernier = this->cpremier;
         while (this->cdernier->getSuivant() != nullptr) this->cdernier = this->cdernier->getSuivant();
@@ -36,7 +31,6 @@ class File {
 
     // surcharge de l'opérateur = 
     File<T>* &operator = (File<T>* const &file){
-        std::cout<<"opphey";
         return this->cpremier=dupliquer(file->cpremier);
     }
 
@@ -75,16 +69,28 @@ class File {
         s<<temp->cpremier->getClient()<<" ";
         return s.str();
     }
+
+
+
+
+
     // afficher la file courante
     void afficher(){
         File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
 
-        std::cout<<"file: ";
+        std::cout<<"Guichet: ";
         while (!f1->estVide()){
-            std::cout<<f1->premier()<<",";
+            std::cout<<f1->premier()<<" ";
                 f1->defiler();
             }
         std::cout<<std::endl;
+
+
+
+
+
+
+
     }
     //surcharge de l'opérateur <<
     friend std::ostream &operator << (std::ostream &f, const File<T> &F){

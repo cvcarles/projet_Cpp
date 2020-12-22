@@ -9,11 +9,6 @@
 template<typename T>
 
 class FileChainee: public File<T> {
-    private:
-        //int max;        //nombre maximum de personne dans la file
-        //Client<T> *cdernier; // pointe sur le dernier client
-        //Client<T> *cpremier;
-
     public:
     //constructeur
     FileChainee():File<T>::File(){};

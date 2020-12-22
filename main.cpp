@@ -4,43 +4,36 @@
 #include <math.h>
 #include <fstream>
 #include "FileChainee.hpp"
+#include "File.cpp"
+#include "Guichet.hpp"
+#include "Poste.hpp"
 
 
 
 using namespace std;
 
 int main(){
-   // int i=1;
+
     FileChainee<int> f1;
-    //f1.enfiler(i);
-    //cout<<f1.estVide()<<endl;
+
+    Guichet<int> guichet1;
+    guichet1.setTemps(1000);
+
     f1.enfiler(2);
-    //cout<<f1.estVide()<<endl;
-
-    //cout<<f1.estVide()<<endl;
-    //cout<<f1.premier()<<endl;
     f1.enfiler(3);
-    //cout<<f1.premier()<<endl;
-    //f1.defiler();
-    //cout<<f1.premier()<<endl;
-   // f1.defiler();
-    //cout<<f1.estVide()<<endl;
-    //FileChainee<int> f2=f1;
-
     f1.afficher();
-    f1.enfiler(4);
-    f1.enfiler(5);
-    f1.afficher();
-    //afficher(f2);
-
     
+/*if (f1->estVide()){
+            std::cout<<"[ "<<"]"<<endl;
+        }
 
-    
+si on empile, afficher [ ] <---- 1 
+on enchaine direct avec afficher [|1|] reste de la pile 
+on dépile              [ ] -----> 1
 
-    //cout<<f1<<endl;
 
-
-
+        
+        */
 
 
 
