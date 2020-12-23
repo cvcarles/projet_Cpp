@@ -16,7 +16,7 @@ class Client{
     public:
      int tempsGuichet;              // temps au guichet 
     // constructeur
-        Client(const T &c, Client<T> *s=nullptr): suivant(s),tempsGuichet(temps_Guichet()){clt=c;} ;     // loi uniforme sur des entiers entre 0 et 20 sec) 
+        Client(const T &c=0, Client<T> *s=nullptr): suivant(s),tempsGuichet(temps_Guichet()){clt=c;} ;     // loi uniforme sur des entiers entre 0 et 20 sec) 
 
     // accesseurs
         const T &getClient() const{
@@ -26,7 +26,7 @@ class Client{
         Client<T> *getSuivant() const{
             return this->suivant;
         }
-         
+        
         int getTemps() const{
             return this->tempsGuichet;
         }

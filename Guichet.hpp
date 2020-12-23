@@ -9,15 +9,16 @@ class Guichet{
     private:
         int tempsGuichet;              // temps au guichet 
         //Client<T>* clientActuel;                   // client actuellement au guichet
-        FileChainee<T>* file;           // file correspondant au guichet
+        
         
         
 
     public:
+    FileChainee<T> file;           // file correspondant au guichet
     bool libre;
 
     //constructeur
-    Guichet(FileChainee<T> *f=nullptr, bool l=1): file(f), libre(l){}//file(nullptr){}////////////////////
+    Guichet(FileChainee<T> f, bool l=1): file(f), libre(l){}
     ~Guichet(){};
     
      // accesseur
@@ -25,7 +26,7 @@ class Guichet{
         return this->tempsGuichet;
     }
 
-    File<T> *getFile() const{
+    FileChainee<T> getFile() const{
         return this->file;
     }
 
@@ -35,23 +36,20 @@ class Guichet{
         this->tempsGuichet=t;
     }
 
-    void setSuivant(File<T> *f){
+    void setFile(FileChainee<T>* f){
         this->file=f;
     }
 
 
 
-    void traitementClient(Client <T> client){
-        (this->file)->afficher();
-
-        this->libre=0;
-
-        int t0=time(NULL);
-        while(time(NULL)-t0< client.tempsGuichet){ }
-        
-        (this->file)->defiler();
-        this->libre=1;
-        (this->file)->afficher();
+    void traitementClient(FileChainee<T> &filee){
+        this->libre=0; 
+        int t0=time(NULL);   
+        filee.afficher();  
+        while(time(NULL)-t0 < (filee.cpremier->tempsGuichet)){ }
+        filee.defiler();
+        this->libre=1; 
+        filee.afficher();
     }
 };
 

@@ -49,7 +49,13 @@ class FileChainee: public File<T> {
         return (this->cpremier)->getClient();
     }
 
+    
+    //mutateurs
+        /*void setPremier(Client<T> s){
+            this->cpremier=s;
+        }*/
 
+    
 
     
 };

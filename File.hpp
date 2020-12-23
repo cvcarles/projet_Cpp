@@ -8,7 +8,7 @@
 template<typename T>
 
 class File {
-    protected:
+    public:
         Client<T> *cdernier; // pointe sur le dernier client
         Client<T> *cpremier;
 
@@ -26,7 +26,9 @@ class File {
     File<T> (File<T> const &f) {
         this->cpremier = dupliquer(f.cpremier);
         this->cdernier = this->cpremier;
-        while (this->cdernier->getSuivant() != nullptr) this->cdernier = this->cdernier->getSuivant();
+        //while (this->cdernier->getSuivant() != nullptr) {
+        //    this->cdernier = this->cdernier->getSuivant();
+        //}
 }
 
     // surcharge de l'opérateur = 
@@ -71,9 +73,6 @@ class File {
     }
 
 
-
-
-
     // afficher la file courante
     void afficher(){
         File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
@@ -84,14 +83,11 @@ class File {
                 f1->defiler();
             }
         std::cout<<std::endl;
-
-
-
-
-
-
-
     }
+
+
+
+
     //surcharge de l'opérateur <<
     friend std::ostream &operator << (std::ostream &f, const File<T> &F){
         return f<<F.toString();

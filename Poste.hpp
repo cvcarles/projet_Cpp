@@ -4,7 +4,6 @@
 #include <sstream>
 #include <random>
 #include <time.h>
-
 #include "FileChainee.hpp"
 
 template <typename T>
@@ -37,16 +36,32 @@ class Poste{
 
     // propabilité pour qu'un client arrive
     double probabilite(){
-	    //srand(time(0));
+	   // srand(time(0));
 	    return  (double)rand()/(double) RAND_MAX; 
 
     }
 
-    void algoPrincipal(){
+    void algoPrincipal(Guichet<T> guichet){
+
+        for (int t=1; t<this->getTempsP(); t++){
+       // srand(time(0));
+        double p=this->probabilite();
+        cout<<p<<endl;
+
+
+        if (p<=0.83){
+            cout<<"ifprobdca"<<endl;
+        }
         
+        if(guichet.libre){
+            cout<<"taritement"<<endl;
+
+            //guichet.traitementClient();
+        }  
 
 
 
+    }
     }
 
 
