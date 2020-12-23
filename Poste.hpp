@@ -2,13 +2,16 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <random>
+#include <time.h>
+
 #include "FileChainee.hpp"
 
 template <typename T>
 class Poste{
     private:
         int tempsOuverture;              // temps d'ouverture de la poste
-        int nombreGuichet;                // nombre de guichet dans la poste        
+        int nombreGuichet;              // nombre de guichet dans la poste        
 
     public:
 
@@ -17,20 +20,36 @@ class Poste{
     ~Poste(){};
     
      // accesseur
-    int getTimeG() const{
-        return this->tempsGuichet;
+    int getTempsP() const{
+        return this->tempsOuverture;
     }
     int getNbrG() const{
-        return this->tempsGuichet;
+        return this->nombreGuichet;
     }
 
     //mutateur
-    void setTempsG (const int x){
-        this->tempsGuichet=x;
+    void setTempsP (const int x){
+        this->tempsOuverture=x;
     }
     void setNbrG (const int n){
         this->nombreGuichet=n;
     }
 
+    // propabilité pour qu'un client arrive
+    double probabilite(){
+	    //srand(time(0));
+	    return  (double)rand()/(double) RAND_MAX; 
+
+    }
+
+    void algoPrincipal(){
+        
+
+
+
+    }
+
+
 
 };
+    

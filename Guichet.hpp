@@ -11,11 +11,13 @@ class Guichet{
         //Client<T>* clientActuel;                   // client actuellement au guichet
         FileChainee<T>* file;           // file correspondant au guichet
         
+        
 
     public:
+    bool libre;
 
     //constructeur
-    Guichet(): tempsGuichet(10000){}//, file(<T>){}//file(nullptr){}////////////////////
+    Guichet(FileChainee<T> *f=nullptr, bool l=1): file(f), libre(l){}//file(nullptr){}////////////////////
     ~Guichet(){};
     
      // accesseur
@@ -37,5 +39,26 @@ class Guichet{
         this->file=f;
     }
 
+
+
+    void traitementClient(Client <T> client){
+        (this->file)->afficher();
+
+        this->libre=0;
+
+        int t0=time(NULL);
+        while(time(NULL)-t0< client.tempsGuichet){ }
+        
+        (this->file)->defiler();
+        this->libre=1;
+        (this->file)->afficher();
+    }
 };
 
+/*client arrive
+    marque le temps début
+    tant que temps courant -tempps début < tempsGuichet
+        {
+        }
+    défile client 
+    guichet libre*/
