@@ -5,6 +5,7 @@
 #include <random>
 #include <time.h>
 #include "FileChainee.hpp"
+#include "Guichet.hpp"
 
 template <typename T>
 class Poste{
@@ -15,7 +16,7 @@ class Poste{
     public:
 
     //constructeur
-    Poste(): tempsOuverture(0), nombreGuichet(0){}//file(nullptr){}////////////////////
+    Poste(int t=0, int n=0): tempsOuverture(t), nombreGuichet(n){}//file(nullptr){}////////////////////
     ~Poste(){};
     
      // accesseur
@@ -41,27 +42,29 @@ class Poste{
 
     }
 
-    void algoPrincipal(Guichet<T> guichet){
-
+    void algoPrincipal(FileChainee<T> &filee, Guichet<T> guichet,int *compte){
+        bool libre=1;
         for (int t=1; t<this->getTempsP(); t++){
-       // srand(time(0));
-        double p=this->probabilite();
-        cout<<p<<endl;
+        srand(time(0));
+            double p=this->probabilite();
+            //std::cout<<p<<std::endl;
 
 
-        if (p<=0.83){
-            cout<<"ifprobdca"<<endl;
-        }
+            if (p<=0.83){
+                filee.enfiler(*compte);
+                filee.afficherEnfiler();
+
+                if(libre){
+                guichet.traitementClient(filee,libre);
+                                compte++;
+
+                }  
+            }
         
-        if(guichet.libre){
-            cout<<"taritement"<<endl;
+            
+            
 
-            //guichet.traitementClient();
-        }  
-
-
-
-    }
+        }
     }
 
 

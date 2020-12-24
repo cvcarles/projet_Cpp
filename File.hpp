@@ -46,7 +46,7 @@ class File {
     }
 
     virtual void enfiler (const T &clt){
-        Client<T> *p= new Client<T>(clt, this->cdernier);
+        Client<T> *p= new Client<T>(clt);
         this->cdernier=p;
     }
 
@@ -64,6 +64,11 @@ class File {
         return (this->cpremier)->getClient();
     }
 
+    virtual const T &dernier() const {
+        assert(!this->estVide());                   // on vérifie que la file n'est pas vide
+        return (this->cdernier)->getClient();
+    }
+
     const std::string toString() const {
         
         const File<T>* temp=this;
@@ -74,17 +79,51 @@ class File {
 
 
     // afficher la file courante
-    void afficher(){
+    void afficherAttente(){
         File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
 
-        std::cout<<"Guichet: ";
+        std::cout<<"Guichet: [ ";
         while (!f1->estVide()){
             std::cout<<f1->premier()<<" ";
                 f1->defiler();
             }
+        std::cout<<"]";
         std::cout<<std::endl;
+        
     }
 
+    void afficherEnfiler(){
+        File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
+        T p=f1->dernier();
+        std::cout<<"Guichet: [ ";
+
+            while (!f1->estVide()){
+            std::cout<<f1->premier()<<" ";
+                f1->defiler();
+            } 
+
+        std::cout<<"] <-------"<< p;
+        std::cout<<std::endl;
+        std::cout<<std::endl;
+
+    }
+
+    void afficherDefiler(){
+        File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
+
+        std::cout<<"Guichet: [ ";
+            int p=f1->premier();
+            f1->defiler();
+            while (!f1->estVide()){
+                
+            std::cout<<f1->premier()<<" ";
+                f1->defiler();
+            }
+        std::cout<<"] -------> "<< p;
+        std::cout<<std::endl;
+        std::cout<<std::endl;
+
+    }
 
 
 

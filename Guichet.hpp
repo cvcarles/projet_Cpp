@@ -42,14 +42,14 @@ class Guichet{
 
 
 
-    void traitementClient(FileChainee<T> &filee){
-        this->libre=0; 
-        int t0=time(NULL);   
-        filee.afficher();  
-        while(time(NULL)-t0 < (filee.cpremier->tempsGuichet)){ }
-        filee.defiler();
-        this->libre=1; 
-        filee.afficher();
+    void traitementClient(FileChainee<T> &filee, bool libre){
+        libre=0; 
+        //int t0=time(NULL);   
+        //filee.afficherAttente();  
+        //while(time(NULL)-t0 < (filee.cpremier->tempsGuichet)){ }
+        //filee.defiler();
+        libre=1; 
+        filee.afficherDefiler();
     }
 };
 

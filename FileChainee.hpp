@@ -26,7 +26,7 @@ class FileChainee: public File<T> {
 
     virtual void enfiler (const T &clt) override{
         Client<T> *p= new Client<T>(clt);
-        if (this->estVide()){
+       if (this->estVide()){
             this->cpremier = p;
             this->cdernier = p;
             }
@@ -34,6 +34,7 @@ class FileChainee: public File<T> {
             this->cdernier->setSuivant(p);
             this->cdernier = this->cdernier->getSuivant();
             }
+
     }
 
     virtual void defiler () override {

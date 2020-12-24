@@ -10,10 +10,11 @@ template <typename T>
 class Client{
     private:
         T clt;
-        Client<T> *suivant;
+        
         
         
     public:
+    Client<T> *suivant;
      int tempsGuichet;              // temps au guichet 
     // constructeur
         Client(const T &c=0, Client<T> *s=nullptr): suivant(s),tempsGuichet(temps_Guichet()){clt=c;} ;     // loi uniforme sur des entiers entre 0 et 20 sec) 
