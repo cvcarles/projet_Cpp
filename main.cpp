@@ -30,12 +30,12 @@ int main(){
     //f1->enfiler(1);
     //guichet1.setFile(f1);
     //poste.setTempsP((8*60));
-    
+     
    //guichet1.traitementClient(f1);
 
-    
+     
     int compte=4;
-    f1.enfiler(1);
+    //f1.enfiler(1);
     f1.enfiler(2);
 
     f1.enfiler(3);

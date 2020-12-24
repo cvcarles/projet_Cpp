@@ -40,19 +40,6 @@ class Guichet{
         this->file=f;
     }
 
-
-
-    void traitementClient(FileChainee<T> &filee, bool libre){
-        libre=0; 
-        int t0=time(NULL);   
-        while(time(NULL)-t0 < (filee.cpremier->tempsGuichet)){ }
-        filee.afficherFin();
-//        filee.defiler();
-        libre=1; 
-        filee.afficherDefiler();
-    }
-};
-
 /*client arrive
     marque le temps début
     tant que temps courant -tempps début < tempsGuichet
@@ -60,3 +47,15 @@ class Guichet{
         }
     défile client 
     guichet libre*/
+
+    void traitementClient(FileChainee<T> &filee, bool libre){
+        libre=0; 
+        int t0=time(NULL);   
+        while(time(NULL)-t0 < (filee.cpremier->tempsGuichet)){ }
+        filee.afficherFin();
+        filee.defiler();
+        libre=1; 
+    }
+};
+
+
