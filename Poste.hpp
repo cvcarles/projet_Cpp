@@ -44,25 +44,22 @@ class Poste{
 
     void algoPrincipal(FileChainee<T> &filee, Guichet<T> guichet,int *compte){
         bool libre=1;
+
         for (int t=1; t<this->getTempsP(); t++){
-        srand(time(0));
+            srand(time(0));
             double p=this->probabilite();
-            //std::cout<<p<<std::endl;
-
-
+            
             if (p<=0.83){
                 filee.enfiler(*compte);
                 filee.afficherEnfiler();
-
+                
                 if(libre){
                 guichet.traitementClient(filee,libre);
                                 compte++;
 
                 }  
             }
-        
-            
-            
+
 
         }
     }

@@ -28,7 +28,7 @@ class FileChainee: public File<T> {
         Client<T> *p= new Client<T>(clt);
        if (this->estVide()){
             this->cpremier = p;
-            this->cdernier = p;
+            this->cdernier = this->cpremier;
             }
         else {
             this->cdernier->setSuivant(p);

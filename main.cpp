@@ -39,11 +39,11 @@ int main(){
     f1.enfiler(2);
 
     f1.enfiler(3);
-
+ 
 
     poste.algoPrincipal(f1,guichet1,&compte);
 
-    
+     
 
     return EXIT_SUCCESS;
 

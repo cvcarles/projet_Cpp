@@ -46,8 +46,16 @@ class File {
     }
 
     virtual void enfiler (const T &clt){
-        Client<T> *p= new Client<T>(clt);
-        this->cdernier=p;
+         Client<T> *p= new Client<T>(clt);
+       if (this->estVide()){
+            this->cpremier = p;
+            this->cdernier = this->cpremier;
+            }
+        else {
+            this->cdernier->setSuivant(p);
+            this->cdernier = this->cdernier->getSuivant();
+            }
+
     }
 
     virtual void defiler (){
@@ -79,7 +87,7 @@ class File {
 
 
     // afficher la file courante
-    void afficherAttente(){
+   /* void afficherAttente(){
         File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
 
         std::cout<<"Guichet: [ ";
@@ -89,12 +97,14 @@ class File {
             }
         std::cout<<"]";
         std::cout<<std::endl;
+        std::cout<<std::endl;
+
         
-    }
+    }*/
 
     void afficherEnfiler(){
         File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
-        T p=f1->dernier();
+        //T p=f1->dernier();
         std::cout<<"Guichet: [ ";
 
             while (!f1->estVide()){
@@ -102,7 +112,7 @@ class File {
                 f1->defiler();
             } 
 
-        std::cout<<"] <-------"<< p;
+        std::cout<<"] <-------"<< 'b';
         std::cout<<std::endl;
         std::cout<<std::endl;
 
@@ -121,6 +131,22 @@ class File {
             }
         std::cout<<"] -------> "<< p;
         std::cout<<std::endl;
+        std::cout<<std::endl;
+
+    }
+
+    void afficherFin(){
+        File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
+
+        std::cout<<"Guichet: [ |";
+            std::cout<<f1->premier()<<"| ";
+            f1->defiler();
+            while (!f1->estVide()){
+                
+            std::cout<<f1->premier()<<" ";
+                f1->defiler();
+            }
+        std::cout<<"]"<<std::endl;
         std::cout<<std::endl;
 
     }
