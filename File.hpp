@@ -123,7 +123,7 @@ class File {
         File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
         std::cout<<"Guichet: [ ";
             f1->defiler();
-            this->defiler();
+            //this->defiler();
             while (!f1->estVide()){
                 
             std::cout<<f1->premier()<<" ";

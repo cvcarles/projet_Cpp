@@ -9,36 +9,28 @@
 #include "File.cpp"
 #include "Guichet.hpp"
 #include "Poste.hpp"
-
+#define TEMPOUVERTURE 8
 
 
 using namespace std;
 
 int main(){
     
-    Poste<int> poste(8,1);
-    //Client<int> c0(1);
-    Client<int> c1(1);
+    Poste<int> poste(TEMPOUVERTURE,1);
     
 
-
     FileChainee<int> f1;
-    //cout<<c1.getTemps()<<endl;
-  //  f1.setPremier(c1);
+    
     Guichet<int> guichet1(f1);
 
-    //f1->enfiler(1);
-    //guichet1.setFile(f1);
-    //poste.setTempsP((8*60));
-     
-   //guichet1.traitementClient(f1);
+    
  
      
-    int compte=4;
-    f1.enfiler(1); 
-    f1.enfiler(2);
+    int compte=1;
+    //f1.enfiler(1); 
+   // f1.enfiler(2);
 
-    f1.enfiler(3);
+    //f1.enfiler(3);
  
 
     poste.algoPrincipal(f1,guichet1,&compte); 

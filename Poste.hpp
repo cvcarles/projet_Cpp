@@ -16,7 +16,7 @@ class Poste{
     public:
 
     //constructeur
-    Poste(int t=0, int n=0): tempsOuverture(t), nombreGuichet(n){}//file(nullptr){}////////////////////
+    Poste(int t=0, int n=1): tempsOuverture(t), nombreGuichet(n){}//file(nullptr){}////////////////////
     ~Poste(){};
     
      // accesseur
@@ -37,34 +37,39 @@ class Poste{
 
     // propabilité pour qu'un client arrive
     double probabilite(){
-	   // srand(time(0));
+	   //srand(time(0));
 	    return  (double)rand()/(double) RAND_MAX; 
 
     }
 
     void algoPrincipal(FileChainee<T> &filee, Guichet<T> guichet,int *compte){
-        bool libre=1;
-
+        int libre=1;
         for (int t=1; t<this->getTempsP(); t++){
-            srand(time(0));
+           // std::cout<<t<<std::endl;
             double p=this->probabilite();
-            
+                //std::cout<<"t="<<t<<endl;
+
             if (p<=0.83){
                 filee.enfiler(*compte);
 
-                filee.afficherEnfiler();
-                
-                if(libre){
-                guichet.traitementClient(filee,libre);
                 *compte=*compte+1;
 
-
-                }  
+                filee.afficherEnfiler();
             }
+                //std::cout<<"libre="<<libre<<endl;
+
+            if(libre<=t){
+                guichet.traitementClient(filee,compte,&t,&libre);
+            
+                               // std::cout<<"libre="<<libre<<endl;
+
+            }
+            }
+                    std::cout<<"Poste fermée"<<endl;
+
 
 
         }
-    }
 
 
 

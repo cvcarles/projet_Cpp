@@ -15,10 +15,10 @@ class Guichet{
 
     public:
     FileChainee<T> file;           // file correspondant au guichet
-    bool libre;
+    bool libreT;
 
     //constructeur
-    Guichet(FileChainee<T> f, bool l=1): file(f), libre(l){}
+    Guichet(FileChainee<T> f, bool l=1): file(f), libreT(l){}
     ~Guichet(){};
     
      // accesseur
@@ -40,6 +40,9 @@ class Guichet{
         this->file=f;
     }
 
+    bool estLibreT() const{
+        return this->libreT;
+    }
 /*client arrive
     marque le temps début
     tant que temps courant -tempps début < tempsGuichet
@@ -48,13 +51,17 @@ class Guichet{
     défile client 
     guichet libre*/
 
-    void traitementClient(FileChainee<T> &filee, bool libre){
-        libre=0; 
-        int t0=time(NULL);   
-        while(time(NULL)-t0 < (filee.cpremier->tempsGuichet)){ }
-        filee.afficherFin();
-        filee.defiler();
-        libre=1; 
+    void traitementClient(FileChainee<T> &filee,int *compte,int *t, int *libre){
+        //int t0=time(NULL);   
+        if (!filee.estVide()){
+            //Client<T> *p= new Client<T>(*compte);
+            //filee.cpremier=p;
+            *libre=*t+(filee.cpremier)->tempsGuichet;
+            filee.afficherFin();
+            filee.defiler();
+
+                }
+        //while(time(NULL)-t0 < *(filee.cpremier)->tempsGuichet)){ }
     }
 };
 
