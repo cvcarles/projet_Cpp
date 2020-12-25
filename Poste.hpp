@@ -51,11 +51,13 @@ class Poste{
             
             if (p<=0.83){
                 filee.enfiler(*compte);
+
                 filee.afficherEnfiler();
                 
                 if(libre){
                 guichet.traitementClient(filee,libre);
-                                compte++;
+                *compte=*compte+1;
+
 
                 }  
             }

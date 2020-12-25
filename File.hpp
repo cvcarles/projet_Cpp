@@ -105,14 +105,15 @@ class File {
     void afficherEnfiler(){
         File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
         //T p=f1->dernier();
+
         std::cout<<"Guichet: [ ";
 
-            while (!f1->estVide()){
+            while (f1->premier()!=this->dernier()){
             std::cout<<f1->premier()<<" ";
                 f1->defiler();
             } 
 
-        std::cout<<"] <-------"<< 'b';
+        std::cout<<"] <-------"<< *(this->cdernier);
         std::cout<<std::endl;
         std::cout<<std::endl;
 
@@ -120,7 +121,6 @@ class File {
 
     void afficherDefiler(T p){
         File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
-
         std::cout<<"Guichet: [ ";
             f1->defiler();
             this->defiler();

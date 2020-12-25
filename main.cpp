@@ -32,20 +32,20 @@ int main(){
     //poste.setTempsP((8*60));
      
    //guichet1.traitementClient(f1);
-
+ 
      
     int compte=4;
-    //f1.enfiler(1);
+    f1.enfiler(1); 
     f1.enfiler(2);
 
     f1.enfiler(3);
  
 
-    poste.algoPrincipal(f1,guichet1,&compte);
+    poste.algoPrincipal(f1,guichet1,&compte); 
 
      
 
-    return EXIT_SUCCESS;
+    return EXIT_SUCCESS; 
 
     }
 
