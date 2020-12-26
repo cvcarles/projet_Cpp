@@ -113,9 +113,9 @@ class FileChainee: public File<T> {
         
     }
 
-    void afficherEnfiler(){
+    void afficherEnfiler(int numero){
         FileChainee<T> *f1= new FileChainee<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
-        std::cout<<"Guichet: [ ";
+        std::cout<<"Guichet "<<numero<<": [ ";
             while (f1->premier()!=this->dernier()){
             std::cout<<f1->premier()<<" ";
                 f1->defiler();
@@ -127,9 +127,9 @@ class FileChainee: public File<T> {
 
     }
 
-    void afficherDefiler(){
+    void afficherDefiler(int numero){
         FileChainee<T> *f1= new FileChainee<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
-        std::cout<<"Guichet: [ ";
+        std::cout<<"Guichet "<<numero<<": [ ";
         T p=f1->premier();
 
             f1->defiler();
@@ -145,9 +145,9 @@ class FileChainee: public File<T> {
 
     }
 
-    void afficherFin(){
+    void afficherFin(int numero){
         FileChainee<T> *f1= new FileChainee<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
-        std::cout<<"Guichet: [ |";
+       std::cout<<"Guichet "<<numero<<": [ |";
             std::cout<<f1->premier()<<"| ";
             f1->defiler();
             while (!f1->estVide()){
@@ -157,7 +157,7 @@ class FileChainee: public File<T> {
             }
         std::cout<<"]"<<std::endl;
         std::cout<<std::endl;
-        this->afficherDefiler();
+        this->afficherDefiler(numero);
 
     }
 };

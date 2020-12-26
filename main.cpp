@@ -9,18 +9,19 @@
 #include "File.cpp"
 #include "Guichet.hpp"
 #include "Poste.hpp"
-#define TEMPOUVERTURE 8
+#define TEMPOUVERTURE 10
+#define NOMBREGUICHET 2
 
 
 using namespace std;
 
 int main(){
     
-    Poste<int> poste(TEMPOUVERTURE,1);
+    Poste<int> poste(TEMPOUVERTURE,NOMBREGUICHET);
          
     int compte=1;
 
- 
+  
 
     poste.algoPrincipal(&compte); 
 

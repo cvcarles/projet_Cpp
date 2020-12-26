@@ -5,6 +5,7 @@
 #include <random>
 #include <time.h>
 #include <array>
+#include <vector>
 #include "FileChainee.hpp"
 #include "Guichet.hpp"
 
@@ -12,12 +13,14 @@ template <typename T>
 class Poste{
     private:
         int tempsOuverture;              // temps d'ouverture de la poste
-        FileChainee<int> fileTableau[1];
-        Guichet<int> guichetTableau[1];
+        int nombreGuichet;              // nombre de guichet dans la poste      
+
+        FileChainee<int> fileTableau[2];
+        Guichet<int> guichetTableau[2];
 
     public:
-    int nombreGuichet;              // nombre de guichet dans la poste        
 
+    
     //constructeur
     Poste(int t=0, int n=1):tempsOuverture(t),nombreGuichet(n)
         { 
@@ -68,12 +71,12 @@ class Poste{
     }
 
     void traitementClient(int indice,int *compte,int *t, int *libre){
-        //int t0=time(NULL);   
-        if (!fileTableau[indice].estVide()){
+            int numeroGuichet=indice+1;
+            if (!fileTableau[indice].estVide()){
             //Client<T> *p= new Client<T>(*compte);
             //filee.cpremier=p;
             *libre=*t+(fileTableau[indice].cpremier)->tempsGuichet;
-            fileTableau[indice].afficherFin();
+            fileTableau[indice].afficherFin(numeroGuichet);
             fileTableau[indice].defiler();
             //std::cout<<"traitement"<<indice<<endl;
 
@@ -89,14 +92,13 @@ class Poste{
             double p=this->probabilite();
                                                                                                      //std::cout<<"t="<<t<<endl;
             int indiceCourte=plusCourte();
-        
+            int numeroGuichet=indiceCourte+1;
 
             if (p<=0.83){
                // std::cout<<"proba"<<endl;
 
                 (this->fileTableau[indiceCourte]).enfiler(*compte);
-                this->fileTableau[indiceCourte].afficherEnfiler();
-                this->fileTableau[indiceCourte].afficherAttente();
+                this->fileTableau[indiceCourte].afficherEnfiler(numeroGuichet);
 
                 *compte=*compte+1;
 

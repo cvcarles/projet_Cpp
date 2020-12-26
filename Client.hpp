@@ -3,8 +3,10 @@
 #include <iostream>
 #include <sstream>
 #include <random>
-#define TMIN 1  
-#define TMAX 5
+#define TMING 5
+#define TMAXG 10
+#define TMINI 5
+#define TMAXI 8
 template <typename T>
 
 class Client{
@@ -16,8 +18,10 @@ class Client{
     public:
     Client<T> *suivant;
      int tempsGuichet;              // temps au guichet 
+     int tempsImpatience;           // temps d'impatience
+
     // constructeur
-        Client(const T &c=0, Client<T> *s=nullptr): suivant(s),tempsGuichet(temps_Guichet()){clt=c;} ;     // loi uniforme sur des entiers entre 0 et 20 sec) 
+        Client(const T &c=0, Client<T> *s=nullptr): suivant(s),tempsGuichet(temps_Guichet()), tempsImpatience(temps_Impatience()){clt=c;} ;     // loi uniforme sur des entiers entre 0 et 20 sec) 
 
     // accesseurs
         const T &getClient() const{
@@ -60,7 +64,14 @@ class Client{
         int temps_Guichet(){
             std::random_device rd;  
             std::mt19937 gen(rd()); 
-            std::uniform_int_distribution<> distrib(TMIN, TMAX);
+            std::uniform_int_distribution<> distrib(TMING, TMAXG);
+            return distrib(gen);
+        }
+
+        int temps_Impatience(){
+            std::random_device rd;  
+            std::mt19937 gen(rd()); 
+            std::uniform_int_distribution<> distrib(TMINI, TMAXI);
             return distrib(gen);
         }
 };
