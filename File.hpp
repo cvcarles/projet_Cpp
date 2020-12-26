@@ -23,13 +23,13 @@ class File {
     Client<T> *dupliquer(const Client<T> *clt);
 
     //constructeur de copie
-    File<T> (File<T> const &f) {
+    /*File<T> (File<T> const &f) {
         this->cpremier = dupliquer(f.cpremier);
         this->cdernier = this->cpremier;
         //while (this->cdernier->getSuivant() != nullptr) {
         //    this->cdernier = this->cdernier->getSuivant();
         //}
-}
+}*/
 
     // surcharge de l'opérateur = 
     File<T>* &operator = (File<T>* const &file){
@@ -58,14 +58,29 @@ class File {
 
     }
 
-    virtual void defiler (){
+    /*virtual void defiler (){
         assert(!this->estVide());               // on vérifie que la file n'est pas vide
 
         Client<T> *p= this->cpremier;
         this->cpremier=this->cpremier->getSuivant();
         delete p;
             
-    }
+    }*/
+    virtual void defiler() {
+        assert(!this->estVide());
+
+		Client<T> *p = this->cpremier;
+    
+        if (this->premier()==this->dernier()){
+            this->cpremier = nullptr;
+            this->cdernier = nullptr;
+        }
+        else
+        {
+            this->cpremier = (this->cpremier)->getSuivant();
+        }
+        delete p;       
+	}
 
     virtual const T &premier() const {
         assert(!this->estVide());                   // on vérifie que la file n'est pas vide
@@ -86,71 +101,7 @@ class File {
     }
 
 
-    // afficher la file courante
-   /* void afficherAttente(){
-        File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
-
-        std::cout<<"Guichet: [ ";
-        while (!f1->estVide()){
-            std::cout<<f1->premier()<<" ";
-                f1->defiler();
-            }
-        std::cout<<"]";
-        std::cout<<std::endl;
-        std::cout<<std::endl;
-
-        
-    }*/
-
-    void afficherEnfiler(){
-        File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
-        //T p=f1->dernier();
-
-        std::cout<<"Guichet: [ ";
-
-            while (f1->premier()!=this->dernier()){
-            std::cout<<f1->premier()<<" ";
-                f1->defiler();
-            } 
-
-        std::cout<<"] <-------"<< *(this->cdernier);
-        std::cout<<std::endl;
-        std::cout<<std::endl;
-
-    }
-
-    void afficherDefiler(T p){
-        File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
-        std::cout<<"Guichet: [ ";
-            f1->defiler();
-            //this->defiler();
-            while (!f1->estVide()){
-                
-            std::cout<<f1->premier()<<" ";
-                f1->defiler();
-            }
-        std::cout<<"] -------> "<< p;
-        std::cout<<std::endl;
-        std::cout<<std::endl;
-
-    }
-
-    void afficherFin(){
-        File<T> *f1= new File<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
-        T p=f1->premier();
-        std::cout<<"Guichet: [ |";
-            std::cout<<f1->premier()<<"| ";
-            f1->defiler();
-            while (!f1->estVide()){
-                
-            std::cout<<f1->premier()<<" ";
-                f1->defiler();
-            }
-        std::cout<<"]"<<std::endl;
-        std::cout<<std::endl;
-        this->afficherDefiler(p);
-
-    }
+    
 
 
 

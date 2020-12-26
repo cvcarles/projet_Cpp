@@ -18,7 +18,10 @@ class Guichet{
     bool libreT;
 
     //constructeur
-    Guichet(FileChainee<T> f, bool l=1): file(f), libreT(l){}
+    //Guichet(): file(0), libreT(1){}
+
+    Guichet(FileChainee<T> f, bool l=1): file(f), libreT(l){};
+    Guichet(): tempsGuichet(0),file(), libreT(1){};
     ~Guichet(){};
     
      // accesseur
@@ -51,7 +54,7 @@ class Guichet{
     défile client 
     guichet libre*/
 
-    void traitementClient(FileChainee<T> &filee,int *compte,int *t, int *libre){
+    /*void traitementClient(FileChainee<T> &filee,int *compte,int *t, int *libre){
         //int t0=time(NULL);   
         if (!filee.estVide()){
             //Client<T> *p= new Client<T>(*compte);
@@ -60,9 +63,9 @@ class Guichet{
             filee.afficherFin();
             filee.defiler();
 
-                }
+                }*/
         //while(time(NULL)-t0 < *(filee.cpremier)->tempsGuichet)){ }
-    }
+    
 };
 
 
