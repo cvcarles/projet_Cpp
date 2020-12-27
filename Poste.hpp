@@ -89,7 +89,7 @@ class Poste{
          FileChainee<T> *f= new FileChainee<T>((this->fileTableau[i]));
         while (!f->estVide()){
             if (t>(f->cpremier)->tempsImpatience){
-                this->fileTableau[i].defilerImpatient(f->cpremier, numero);
+                this->fileTableau[i]=this->fileTableau[i].defilerImpatient(f->cpremier, numero);
             }
             f->defiler();
 
@@ -102,19 +102,18 @@ class Poste{
     void algoPrincipal(int *compte){
         int libre=1;
         for (int t=1; t<this->getTempsP(); t++){
-                                                                                                    // std::cout<<t<<std::endl;
-            double p=this->probabilite();
-                                                                                                     //std::cout<<"t="<<t<<endl;
-            int indiceCourte=plusCourte();
-            int numeroGuichet=indiceCourte+1;
+                                                                                                
+            double p=this->probabilite();                                                         
+            int indiceCourte=plusCourte();                      // indice de la file la plus courte
+            int numeroGuichet=indiceCourte+1;                   // Pour commencer la numérotation des guichets à 1
 
              
-            for(int i=0; i<this->nombreGuichet;i++){
-                impatient(i,t,numeroGuichet);
+            //for(int i=0; i<this->nombreGuichet;i++){
+               
 
 
                 if (p<=0.83){
-                // std::cout<<"proba"<<endl;
+                 //std::cout<<t<<endl;
 
                     (this->fileTableau[indiceCourte]).enfiler(*compte,t);
                     this->fileTableau[indiceCourte].afficherEnfiler(numeroGuichet);
@@ -122,13 +121,17 @@ class Poste{
                     *compte=*compte+1;
 
                 }
+                                // std::cout<<t<<endl;
+
 
                 if(libre<=t){
                     traitementClient(indiceCourte,compte,&t,&libre);
                     //std::cout<<"libre"<<endl;
 
                 }
-            }
+                 impatient(indiceCourte,t,numeroGuichet);
+
+            //}
         }
         std::cout<<"Poste fermée"<<std::endl;
 

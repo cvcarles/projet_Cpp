@@ -128,11 +128,13 @@ class FileChainee: public File<T> {
 
     }
 
-    void afficherDefiler(int numero,T clientDefile){
+    void afficherDefiler(int numero,T clientDefile,bool impatient){
         FileChainee<T> *f1= new FileChainee<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
         std::cout<<"Guichet "<<numero<<": [ ";
-    
+        if (!impatient){
             f1->defiler();
+        }
+            
             //this->defiler();
             while (!f1->estVide()){
                 
@@ -157,21 +159,22 @@ class FileChainee: public File<T> {
             }
         std::cout<<"]"<<std::endl;
         std::cout<<std::endl;
+        this->afficherDefiler(numero,this->cpremier->getClient(),false);
 
     }
 
     FileChainee<T> defilerImpatient(Client<T> *impatient, int numero){
         FileChainee<T> *copie= new FileChainee<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
-        FileChainee<T> nouvelle;
-
+        FileChainee<T> nouvelle=FileChainee<T>();
         while (!copie->estVide()){
             if(copie->premier()!=impatient->clt){
                 nouvelle.enfiler(copie->premier());
-        
+
             }
+
             copie->defiler();
         }
-        nouvelle.afficherDefiler(numero,impatient->clt);
+        nouvelle.afficherDefiler(numero,impatient->clt,true);
         return nouvelle;
     }
 

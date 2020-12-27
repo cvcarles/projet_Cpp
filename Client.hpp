@@ -3,10 +3,10 @@
 #include <iostream>
 #include <sstream>
 #include <random>
-#define TMING 5
+#define TMING 1
 #define TMAXG 10
 #define TMINI 5
-#define TMAXI 8
+#define TMAXI 10
 template <typename T>
 
 class Client{

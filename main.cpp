@@ -24,7 +24,7 @@ int main(){
   
 
     //poste.algoPrincipal(&compte); 
-    FileChainee<int> f1;
+  /*  FileChainee<int> f1;
     
     Guichet<int> guichet1(f1);
 
@@ -37,7 +37,7 @@ int main(){
     f1.enfiler(7); 
     f1.enfiler(8);
     f1.enfiler(9);
- 
+ */
    //(f1.defilerImpatient(4)).afficherAttente(); 
 
     poste.algoPrincipal(&compte);
