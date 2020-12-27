@@ -38,8 +38,9 @@ class FileChainee: public File<T> {
         return this->cpremier==nullptr;
     }
 
-    virtual void enfiler (const T &clt) override{
+    virtual void enfiler (const T &clt, int t=0){
         Client<T> *p= new Client<T>(clt);
+        p->setHeure(t);                                         // on assimile au client enfilé l'heure à laquelle il rentre dans la file d'attente
        if (this->estVide()){
                      // std::cout<<"enfiler est vide"<<std::endl;
 
@@ -127,11 +128,10 @@ class FileChainee: public File<T> {
 
     }
 
-    void afficherDefiler(int numero){
+    void afficherDefiler(int numero,T clientDefile){
         FileChainee<T> *f1= new FileChainee<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
         std::cout<<"Guichet "<<numero<<": [ ";
-        T p=f1->premier();
-
+    
             f1->defiler();
             //this->defiler();
             while (!f1->estVide()){
@@ -139,7 +139,7 @@ class FileChainee: public File<T> {
             std::cout<<f1->premier()<<" ";
                 f1->defiler();
             }
-        std::cout<<"] -------> "<< p;
+        std::cout<<"] -------> "<< clientDefile;
         std::cout<<std::endl;
         std::cout<<std::endl;
 
@@ -157,7 +157,22 @@ class FileChainee: public File<T> {
             }
         std::cout<<"]"<<std::endl;
         std::cout<<std::endl;
-        this->afficherDefiler(numero);
 
     }
+
+    FileChainee<T> defilerImpatient(Client<T> *impatient, int numero){
+        FileChainee<T> *copie= new FileChainee<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
+        FileChainee<T> nouvelle;
+
+        while (!copie->estVide()){
+            if(copie->premier()!=impatient->clt){
+                nouvelle.enfiler(copie->premier());
+        
+            }
+            copie->defiler();
+        }
+        nouvelle.afficherDefiler(numero,impatient->clt);
+        return nouvelle;
+    }
+
 };

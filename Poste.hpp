@@ -84,6 +84,20 @@ class Poste{
         }
     }
 
+    // vérification des impatients
+    void impatient(int i, int t,int numero){
+         FileChainee<T> *f= new FileChainee<T>((this->fileTableau[i]));
+        while (!f->estVide()){
+            if (t>(f->cpremier)->tempsImpatience){
+                this->fileTableau[i].defilerImpatient(f->cpremier, numero);
+            }
+            f->defiler();
+
+        }
+
+    }
+
+
     // algorithme principal
     void algoPrincipal(int *compte){
         int libre=1;
@@ -94,25 +108,29 @@ class Poste{
             int indiceCourte=plusCourte();
             int numeroGuichet=indiceCourte+1;
 
-            if (p<=0.83){
-               // std::cout<<"proba"<<endl;
+             
+            for(int i=0; i<this->nombreGuichet;i++){
+                impatient(i,t,numeroGuichet);
 
-                (this->fileTableau[indiceCourte]).enfiler(*compte);
-                this->fileTableau[indiceCourte].afficherEnfiler(numeroGuichet);
 
-                *compte=*compte+1;
+                if (p<=0.83){
+                // std::cout<<"proba"<<endl;
 
-            }
+                    (this->fileTableau[indiceCourte]).enfiler(*compte,t);
+                    this->fileTableau[indiceCourte].afficherEnfiler(numeroGuichet);
 
-            if(libre<=t){
-                traitementClient(indiceCourte,compte,&t,&libre);
-                //std::cout<<"libre"<<endl;
+                    *compte=*compte+1;
 
+                }
+
+                if(libre<=t){
+                    traitementClient(indiceCourte,compte,&t,&libre);
+                    //std::cout<<"libre"<<endl;
+
+                }
             }
         }
-                    std::cout<<"Poste fermée"<<endl;
-
-
+        std::cout<<"Poste fermée"<<std::endl;
 
     }
 

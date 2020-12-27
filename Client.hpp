@@ -11,17 +11,19 @@ template <typename T>
 
 class Client{
     private:
-        T clt;
         
         
         
     public:
+            T clt;
+
     Client<T> *suivant;
      int tempsGuichet;              // temps au guichet 
      int tempsImpatience;           // temps d'impatience
+     int heureArrivee;              // heure d'arrivée du client
 
     // constructeur
-        Client(const T &c=0, Client<T> *s=nullptr): suivant(s),tempsGuichet(temps_Guichet()), tempsImpatience(temps_Impatience()){clt=c;} ;     // loi uniforme sur des entiers entre 0 et 20 sec) 
+        Client(const T &c=0, Client<T> *s=nullptr,int h=0): suivant(s),tempsGuichet(temps_Guichet()), tempsImpatience(temps_Impatience()),heureArrivee(h){clt=c;} ;     // loi uniforme sur des entiers entre 0 et 20 sec) 
 
     // accesseurs
         const T &getClient() const{
@@ -36,6 +38,12 @@ class Client{
             return this->tempsGuichet;
         }
 
+        //donne l'heure d'arrivée du client
+        int getHeure() const{
+            return this->heureArrivee;
+        }
+
+
    
     //mutateurs
         void setSuivant(Client<T> *s){
@@ -48,6 +56,10 @@ class Client{
 
         void setTemps(const int t){
             this->tempsGuichet=t;
+        }
+
+        void setHeure(const int h){
+            this->heureArrivee=h;
         }
 
 

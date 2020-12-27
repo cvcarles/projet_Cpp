@@ -19,14 +19,28 @@ int main(){
     
     Poste<int> poste(TEMPOUVERTURE,NOMBREGUICHET);
          
-    int compte=1;
+   int compte=1;
 
   
 
-    poste.algoPrincipal(&compte); 
+    //poste.algoPrincipal(&compte); 
+    FileChainee<int> f1;
+    
+    Guichet<int> guichet1(f1);
 
-     
+    f1.enfiler(1); 
+    f1.enfiler(2);
+    f1.enfiler(3);
+    f1.enfiler(4); 
+    f1.enfiler(5);
+    f1.enfiler(6);
+    f1.enfiler(7); 
+    f1.enfiler(8);
+    f1.enfiler(9);
+ 
+   //(f1.defilerImpatient(4)).afficherAttente(); 
 
+    poste.algoPrincipal(&compte);
     return EXIT_SUCCESS; 
 
     }
