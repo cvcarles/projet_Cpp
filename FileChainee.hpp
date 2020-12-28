@@ -10,6 +10,8 @@ template<typename T>
 
 class FileChainee: public File<T> {
     public:
+//----------------------Bases de la classe FileChainee---------------------------------   
+
     //constructeur
     FileChainee():File<T>::File(){};
 
@@ -167,14 +169,14 @@ class FileChainee: public File<T> {
         FileChainee<T> *copie= new FileChainee<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
         FileChainee<T> nouvelle=FileChainee<T>();
         while (!copie->estVide()){
-            if(copie->premier()!=impatient->clt){
+            if(copie->premier()!=impatient->getClient()){
                 nouvelle.enfiler(copie->premier());
 
             }
 
             copie->defiler();
         }
-        nouvelle.afficherDefiler(numero,impatient->clt,true);
+        nouvelle.afficherDefiler(numero,impatient->getClient(),true);
         return nouvelle;
     }
 

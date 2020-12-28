@@ -13,7 +13,10 @@ class File {
         Client<T> *cpremier;
 
     public:
+    
+ //----------------------Bases de la classe File---------------------------------   
 
+    //constructeur
     File(): cdernier(nullptr),cpremier(nullptr){}////////////////////
 
     // destructeur

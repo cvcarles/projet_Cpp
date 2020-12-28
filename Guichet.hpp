@@ -16,6 +16,7 @@ class Guichet{
     public:
     FileChainee<T> file;           // file correspondant au guichet
     bool libreT;
+ //----------------------Bases de la classe Guichet---------------------------------   
 
     //constructeur
     //Guichet(): file(0), libreT(1){}
