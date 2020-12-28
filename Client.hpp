@@ -86,10 +86,8 @@ class Client{
      * Rôle: utilise la loi uniforme entre TMINI et TMAXI pour retourner le temps de patience d'un client                
      */
     int temps_Impatience(){
-        std::random_device rd;  
-        std::mt19937 gen(rd()); 
-        std::uniform_int_distribution<> distrib(TMINI, TMAXI);
-        return distrib(gen);
+        srand(time(0));
+        return (rand()%(TMINI-TMAXI+1)+1);
     }
 
 
