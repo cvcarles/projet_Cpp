@@ -11,18 +11,17 @@ template <typename T>
 
 class Client{
     private:
-        Client<T> *suivant;
-
         T clt;
+        Client<T> *suivant;
         int tempsGuichet;              // temps au guichet 
         int tempsImpatience;           // temps d'impatience
         int heureArrivee;              // heure d'arrivée du client
 
+//----------------------Bases de la classe Client---------------------------------   
     public:
- //----------------------Bases de la classe Client---------------------------------   
 
     // constructeur
-        Client(const T &c=0, Client<T> *s=nullptr,int h=0): suivant(s),tempsGuichet(temps_Guichet()), tempsImpatience(temps_Impatience()),heureArrivee(h){clt=c;} ;     // loi uniforme sur des entiers entre 0 et 20 sec) 
+        Client(const T &c=0, Client<T> *s=nullptr,int h=0): suivant(s),tempsGuichet(temps_Guichet()), tempsImpatience(temps_Impatience()),heureArrivee(h){clt=c;} ;     
 
     // accesseurs
         const T &getClient() const{
@@ -49,13 +48,14 @@ class Client{
 
    
     //mutateurs
-        void setSuivant(Client<T> *s){
-            this->suivant=s;
-        }
-
         void setClient (const T &x){
             this->clt=x;
         }
+
+         void setSuivant(Client<T> *s){
+            this->suivant=s;
+        }
+
 
         void setTempsG(const int t){
             this->tempsGuichet=t;
@@ -70,6 +70,33 @@ class Client{
         }
 
 
+    
+    /* 
+     * Rôle: utilise la loi uniforme entre TMING et TMAXG pour retourner le temps passé au guichet par un client                
+     */
+
+    int temps_Guichet(){
+        std::random_device rd;  
+        std::mt19937 gen(rd()); 
+        std::uniform_int_distribution<> distrib(TMING, TMAXG);
+        return distrib(gen);
+    }
+
+    /* 
+     * Rôle: utilise la loi uniforme entre TMINI et TMAXI pour retourner le temps de patience d'un client                
+     */
+    int temps_Impatience(){
+        std::random_device rd;  
+        std::mt19937 gen(rd()); 
+        std::uniform_int_distribution<> distrib(TMINI, TMAXI);
+        return distrib(gen);
+    }
+
+
+    /* 
+     * Rôle: surcharge d'opérateur utile pour les tests d'affichage                
+     */
+
         const std::string toString() const {
             std::ostringstream s;
             s<<this->clt;
@@ -80,17 +107,4 @@ class Client{
             return f<<c.toString();
         }
 
-        int temps_Guichet(){
-            std::random_device rd;  
-            std::mt19937 gen(rd()); 
-            std::uniform_int_distribution<> distrib(TMING, TMAXG);
-            return distrib(gen);
-        }
-
-        int temps_Impatience(){
-            std::random_device rd;  
-            std::mt19937 gen(rd()); 
-            std::uniform_int_distribution<> distrib(TMINI, TMAXI);
-            return distrib(gen);
-        }
 };

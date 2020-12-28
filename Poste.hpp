@@ -25,30 +25,30 @@ class Poste{
 
  //----------------------Bases de la classe Poste---------------------------------   
     //constructeur
-    Poste(int t=0, int n=1):tempsOuverture(t),nombreGuichet(n){ 
-        for (int i=0; i<=this->nombreGuichet;i++){                  // une file est assimilée à un guichet de la poste    
-            Guichet<int> guichetTableau(fileTableau[i]);
+        Poste(int t=0, int n=1):tempsOuverture(t),nombreGuichet(n){ 
+            for (int i=0; i<=this->nombreGuichet;i++){                  // une file est assimilée à un guichet de la poste    
+                Guichet<int> guichetTableau(fileTableau[i]);
+            }
         }
-    }
 
     //destructeur
     ~Poste(){};
     
     // accesseurs
-    int getTempsP() const{                                      // renvoie le temps d'ouverture de la poste
-        return this->tempsOuverture;
-    }
-    int getNbrG() const{                                        //renvoie le nombre de guichets de la poste
-        return this->nombreGuichet;
-    }
+        int getTempsP() const{                                      // renvoie le temps d'ouverture de la poste
+            return this->tempsOuverture;
+        }
+        int getNbrG() const{                                        //renvoie le nombre de guichets de la poste
+            return this->nombreGuichet;
+        }
 
-    //mutateurs
-    void setTempsP (const int x){                               // assigne le temp d'ouverture de la poste
-        this->tempsOuverture=x;
-    }
-    void setNbrG (const int n){                                 // assigne le nombre de guichets de la poste
-        this->nombreGuichet=n;
-    }
+        //mutateurs
+        void setTempsP (const int x){                               // assigne le temp d'ouverture de la poste
+            this->tempsOuverture=x;
+        }
+        void setNbrG (const int n){                                 // assigne le nombre de guichets de la poste
+            this->nombreGuichet=n;
+        }
 
 
  //----------------------Méthodes de la classe Poste---------------------------------   
@@ -82,10 +82,12 @@ class Poste{
      *       prend en paramètres l'indice de la file à traiter, le numéro du client, 
      *                           le temps courant et si le guichet et libre ou non 
      */
-    void traitementClient(int indice,int *compte,int *t, int *libre){
+    void traitementClient(int indice,int *compte,int *t){
             int numeroGuichet=indice+1;                                 // Pour commencer la numérotation des guichets à 1
-            if (!fileTableau[indice].estVide()){                
-                *libre=*t+(fileTableau[indice].cpremier)->getTempsG(); // libre prend le temp courant + le temps que le client prendra au guichet
+
+            if (!fileTableau[indice].estVide()){   
+                int temps=*t+(fileTableau[indice].cpremier)->getTempsG();
+                this->guichetTableau[indice].setLibre(temps); // libre prend le temp courant + le temps que le client prendra au guichet
                 fileTableau[indice].afficherFin(numeroGuichet);         // affiche l'état de la file
                 fileTableau[indice].defiler();                          // défile le client une fois traité
         }
@@ -114,13 +116,7 @@ class Poste{
      * Rôle: Lance l'algorithme principal du programme                  
      */
     void algoPrincipal(int *compte){
-       
-        int libre[nombreGuichet];                             // libre est le temps à partir duquel le guichet est de nouveau libre 
-        for (int i= 0; i<nombreGuichet; i++) {                // on initialise toutes les variables libres des files à 1
-            libre[i] = 1;
-        }
-
-
+    
         for (int t=1; t<this->getTempsP(); t++){               // tant que la poste est ouverte, à chaque minute on fait
                                                                                                 
             double p=this->probabilite();                      // on calcule la probabilité qu'un client arrive dans le bureau                             
@@ -136,10 +132,10 @@ class Poste{
                 *compte=*compte+1;                                              // le compte des numéros de client est incrémenté de 1
             }
 
-            if(libre[indiceCourte]<=t){                                         // Le guichet ne sera disponible qu'une fois le précédent client traité
-                traitementClient(indiceCourte,compte,&t,&libre[indiceCourte]);  // traitement du client si le guichet est libre
+            if((this->guichetTableau[indiceCourte].getLibre())<=t){             // Le guichet ne sera disponible qu'une fois le précédent client traité
+                traitementClient(indiceCourte,compte,&t);                       // traitement du client si le guichet est libre
             }
-                impatient(t,numeroGuichet);                        // on défile les clients impatients de la file 
+                impatient(t,numeroGuichet);                                     // on défile les clients impatients de la file 
         }
         std::cout<<"Poste fermée"<<std::endl;
 
