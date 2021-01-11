@@ -13,7 +13,6 @@ class Guichet{
  //----------------------Bases de la classe Guichet---------------------------------   
 
     public:
-
     //constructeurs
         Guichet(FileChainee<T> f, int l=1): file(f), libre(l){};
         Guichet(): file(), libre(1){};

@@ -6,7 +6,7 @@
 #include <time.h>
 #include <array>
 #include <vector>
-#include "FileChainee.hpp"
+//#include "FileChainee.hpp"
 #include "Guichet.hpp"
 
 template <typename T>
@@ -18,8 +18,8 @@ class Poste{
         int tempsOuverture;                 // temps d'ouverture de la poste
         int nombreGuichet;                  // nombre de guichet dans la poste      
 
-        FileChainee<int> fileTableau[2];    // 
-        Guichet<int> guichetTableau[2];
+        FileChainee<int> fileTableau[4];    // 
+        Guichet<int> guichetTableau[4];
 
     public:
 
@@ -57,8 +57,10 @@ class Poste{
      *Rôle: renvoie la propabilité qu'un client arrive
      */
     double probabilite(){
-	   srand(time(0));
-	    return  (double)rand()/(double) RAND_MAX; 
+	   std::random_device rd;  
+        std::mt19937 gen(rd()); 
+        std::uniform_int_distribution<> distrib(0,1);
+        return (double)distrib(gen);
     }
 
     /* 
@@ -82,14 +84,29 @@ class Poste{
      *       prend en paramètres l'indice de la file à traiter, le numéro du client, 
      *                           le temps courant et si le guichet et libre ou non 
      */
-    void traitementClient(int indice,int *compte,int *t){
-            int numeroGuichet=indice+1;                                 // Pour commencer la numérotation des guichets à 1
-
+    void traitementClient(int indice,int *t){
+            /*int numeroGuichet=indice+1;                                 // Pour commencer la numérotation des guichets à 1
+            if (!fileTableau[indice].estVide()){  
+                if (*t>(this->guichetTableau[indice].getLibre())){
+                    fileTableau[indice].afficherFin(numeroGuichet);         // affiche l'état de la file
+                    fileTableau[indice].defiler();                          // défile le client une fois traité
+                 }
+                
+                int temps=*t+4;
+                //int temps=*t+(fileTableau[indice].cpremier)->getTempsG();
+                this->guichetTableau[indice].setLibre(temps);           // libre prend le temp courant + le temps que le client prendra au guichet
+                std::cout<<"temps"<<*t<<std::endl;
+                std::cout<<indice<<"libre à "<<this->guichetTableau[indice].getLibre()<<std::endl;
+                
+        }*/
+         int numeroGuichet=indice+1;                                 // Pour commencer la numérotation des guichets à 1
+        if (*t>(this->guichetTableau[indice].getLibre())){
             if (!fileTableau[indice].estVide()){   
                 int temps=*t+(fileTableau[indice].cpremier)->getTempsG();
                 this->guichetTableau[indice].setLibre(temps); // libre prend le temp courant + le temps que le client prendra au guichet
                 fileTableau[indice].afficherFin(numeroGuichet);         // affiche l'état de la file
                 fileTableau[indice].defiler();                          // défile le client une fois traité
+        }
         }
     }
 
@@ -98,15 +115,16 @@ class Poste{
      *       le temps courant et le numéro du client                          
      */ 
 
-    void impatient(int t,int numero){
-        for(int i=0; i<this->nombreGuichet;i++){                                        // on vérifie le mécontentement des clients pour chaque files
-            FileChainee<T> *f= new FileChainee<T>((this->fileTableau[i]));
+    void impatient(int t, int numero, int &nbrclient,int *compte){
+        
+            FileChainee<T> *f= new FileChainee<T>((this->fileTableau[numero]));
             while (!f->estVide()){
-                if ((t-f->cpremier->getHeure()) > ((f->cpremier)->getTempsI())){
-                    this->fileTableau[i]=this->fileTableau[i].defilerImpatient(f->cpremier, numero);
+                if (t-(f->premier()) < 5) {//((f->cpremier->getSuivant())->getTempsI())){         //  if ((t-f->cpremier->getHeure()) > ((f->cpremier)->getTempsI())){
+                    this->fileTableau[numero]=this->fileTableau[numero].defilerImpatient(f->cpremier,numero+1,t);
+                    nbrclient++;
                 }
-                f->defiler();
-            }
+               f->defiler();
+                
         }
 
     }
@@ -116,7 +134,9 @@ class Poste{
      * Rôle: Lance l'algorithme principal du programme                  
      */
     void algoPrincipal(int *compte){
-    
+
+        int nombreClientsImpatients=0;
+
         for (int t=1; t<this->getTempsP(); t++){               // tant que la poste est ouverte, à chaque minute on fait
                                                                                                 
             double p=this->probabilite();                      // on calcule la probabilité qu'un client arrive dans le bureau                             
@@ -124,19 +144,26 @@ class Poste{
             int numeroGuichet=indiceCourte+1;                  // Pour commencer la numérotation des guichets à 1
                
 
-
-            if (p<=0.83){                                                       // si la probabilité est inférieure à 50 clients par heure =0,83
+            if (p<=0.83){                                                 // si la probabilité est inférieure à 50 clients par heure =0,83
                 (this->fileTableau[indiceCourte]).enfiler(*compte,t);           // on enfile le client sur la file la plus courte à l'instant t
                 this->fileTableau[indiceCourte].afficherEnfiler(numeroGuichet); // on affiche le fait d'avoir enfilé
-
                 *compte=*compte+1;                                              // le compte des numéros de client est incrémenté de 1
             }
 
-            if((this->guichetTableau[indiceCourte].getLibre())<=t){             // Le guichet ne sera disponible qu'une fois le précédent client traité
-                traitementClient(indiceCourte,compte,&t);                       // traitement du client si le guichet est libre
+            for (int j=0; j<this->nombreGuichet; j++){
+                
+                if((this->guichetTableau[j].getLibre())<=t){              // Le guichet ne sera disponible qu'une fois le précédent client traité
+                    traitementClient(j,&t);                              // traitement du client si le guichet est libre
+                }
+                impatient(t,j,nombreClientsImpatients,compte);                                     // on défile les clients impatients de la file 
             }
-                impatient(t,numeroGuichet);                                     // on défile les clients impatients de la file 
         }
+        std::cout<<"Nombre de clients impatients "<<nombreClientsImpatients<<std::endl;
+        std::cout<<"Nombre de clients total "<<*compte-1<<std::endl;
+        std::cout<<"Ratio "<<(double)nombreClientsImpatients/(*compte-1)<<std::endl;
+        std::cout<<std::endl;
+
+
         std::cout<<"Poste fermée"<<std::endl;
 
     }

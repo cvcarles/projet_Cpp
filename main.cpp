@@ -5,12 +5,11 @@
 #include <fstream>
 #include <time.h>
 #include <random>
-#include "FileChainee.hpp"
-#include "File.cpp"
-#include "Guichet.hpp"
+//#include "FileChainee.hpp"
+//#include "Guichet.hpp"
 #include "Poste.hpp"
-#define TEMPOUVERTURE 10
-#define NOMBREGUICHET 2
+#define TEMPOUVERTURE 480
+#define NOMBREGUICHET 4
 
 
 using namespace std;

@@ -8,7 +8,7 @@
 
 template<typename T>
 
-class FileChainee: public File<T> {
+class FileChainee: public virtual File<T> {
     
 //----------------------Bases de la classe FileChainee---------------------------------   
     public:
@@ -26,6 +26,9 @@ class FileChainee: public File<T> {
     // destructeur
         ~FileChainee(){}
 
+
+//-----------------Méthodes de base de manipulation de la classe FileChainee--------------------------------- 
+
     /* 
      * Rôle: dupliquer un client               
      */ 
@@ -37,6 +40,13 @@ class FileChainee: public File<T> {
         return new Client<T> (c->getClient(),p);
     }
     
+    /* 
+     * Rôle: surcharger l'opérateur d'affectation                  
+     */ 
+    File<T>* &operator = (File<T>* const &file){
+        return this->cpremier=dupliquer(file->cpremier);
+    }
+
     
     /* 
      * Rôle: Les 5 primitives de la manipulation de files                 
@@ -46,9 +56,12 @@ class FileChainee: public File<T> {
             return this->cpremier==nullptr;
         }
 
-        virtual void enfiler (const T &clt, int t=0){
+        virtual void enfiler (const T &clt, int t){
             Client<T> *p= new Client<T>(clt);                       // on créé un nouveau client à enfiler avec la valeur passée en paramètre
+            //std::cout<<t<<std::endl;
             p->setHeure(t);                                         // on assimile au client enfilé l'heure à laquelle il rentre dans la file d'attente
+            //std::cout<<p->getTempsI()<<std::endl;
+       
         if (this->estVide()){
                 this->cpremier = p;
                 this->cdernier = p;
@@ -59,6 +72,7 @@ class FileChainee: public File<T> {
                 this->cdernier = p;
             }
         }
+
 
         virtual void defiler () override {
             assert(!this->estVide());                               // on vérifie que la file n'est pas vide
@@ -74,17 +88,41 @@ class FileChainee: public File<T> {
             return (this->cpremier)->getClient();
         }
 
+        virtual const T &dernier() const {
+            assert(!this->estVide());                   // on vérifie que la file n'est pas vide
+            return (this->cdernier)->getClient();
+        }
+
+//-----------------Méthodes de manipulation de la classe FileChainee--------------------------------- 
+
+    /* 
+     * Rôle: défile le client impatient au numéro de guichet, tous deux passés en paramètre   
+     *       et retourne la file actualisée sans le client impatient      
+     */
+    FileChainee<T> defilerImpatient(Client<T> *impatient, int numero, int t){
+        FileChainee<T> *copie= new FileChainee<T>(*(this));                         // on duplique la file courante pour ne modifier que la temporaire
+        FileChainee<T> nouvelle=FileChainee<T>();                                   // on créé une nouvelle file 
+        while (!copie->estVide()){
+            if(copie->premier()!=impatient->getClient()){                           // on copie la file courante en sautant le client impatient 
+                nouvelle.enfiler(copie->premier(),t);
+            }
+            copie->defiler();
+        }
+        nouvelle.afficherDefiler(numero,impatient->getClient(),true);
+        return nouvelle;
+    }
+
     /* 
      * Rôle: retourne la longueur d'une file             
      */
     int longueur(){
-        int t=0;
+        int compteur=0;
         FileChainee<T> *f1= new FileChainee<T>(*(this));    
         while(!f1->estVide()){                                  // tant que la copie de la file n'est pas vide
             f1->defiler();                                      // on défile la copie et on incrémente le compteur 
-            t++;                                                
+            compteur++;                                                
         }
-    return t;
+    return compteur;
     }
 
     /* 
@@ -116,7 +154,7 @@ class FileChainee: public File<T> {
             } 
 
         std::cout<<"] <-------"<< *(this->cdernier);
-        std::cout<<std::endl;
+        std::cout<<   std::endl;
         std::cout<<std::endl;
     }
 
@@ -162,21 +200,4 @@ class FileChainee: public File<T> {
 
 
 
-    /* 
-     * Rôle: défile le client impatient au numéro de guichet, tous deux passés en paramètre   
-     *       et retourne la file actualisée sans le client impatient      
-     */
-    FileChainee<T> defilerImpatient(Client<T> *impatient, int numero){
-        FileChainee<T> *copie= new FileChainee<T>(*(this));                         // on duplique la file courante pour ne modifier que la temporaire
-        FileChainee<T> nouvelle=FileChainee<T>();                                   // on créé une nouvelle file 
-
-        while (!copie->estVide()){
-            if(copie->premier()!=impatient->getClient()){                           // on copie la file courante en sautant le client impatient 
-                nouvelle.enfiler(copie->premier());
-            }
-            copie->defiler();
-        }
-        nouvelle.afficherDefiler(numero,impatient->getClient(),true);
-        return nouvelle;
-    }
 };

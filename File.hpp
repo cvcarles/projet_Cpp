@@ -16,27 +16,19 @@ class File {
 
     public:
     //constructeur
-        File(): cdernier(nullptr),cpremier(nullptr){}////////////////////
+        File(): cdernier(nullptr),cpremier(nullptr){}
 
     // destructeur
-        ~File(){}
+       virtual ~File(){}
 
 //----------------------Méthodes de base de manipulation de la classe File--------------------------------- 
     /* 
-     * Rôle: surcharger l'opérateur d'affectation                  
-     */ 
-    File<T>* &operator = (File<T>* const &file){
-        return this->cpremier=dupliquer(file->cpremier);
-    }
-
-
-
-    /* 
      * Rôle: Les 5 primitives de la manipulation de files                 
      */
-    virtual bool estVide() const{
-        return this->cpremier==nullptr;
-    }
+    virtual bool estVide() const=0;
+    virtual void defiler()=0;
+    virtual const T &premier() const=0;
+    virtual const T &dernier() const=0;
 
     virtual void enfiler (const T &clt){
          Client<T> *p= new Client<T>(clt);
@@ -50,41 +42,5 @@ class File {
             }
 
     }
-
-    virtual void defiler() {
-         assert(!this->estVide());               // on vérifie que la file n'est pas vide
-
-       Client<T> *p= this->cpremier;
-        this->cpremier=(this->cpremier)->getSuivant();
-        delete p;
-    }
-
-    virtual const T &premier() const {
-        assert(!this->estVide());                   // on vérifie que la file n'est pas vide
-        return (this->cpremier)->getClient();
-    }
-
-    virtual const T &dernier() const {
-        assert(!this->estVide());                   // on vérifie que la file n'est pas vide
-        return (this->cdernier)->getClient();
-    }
-
-
-
-
-    /* 
-     * Rôle: surcharge d'opérateur utile pour les tests d'affichage                
-     */
-
-        const std::string toString() const {
-            const File<T>* temp=this;
-            std::ostringstream s;
-            s<<temp->cpremier->getClient()<<" ";
-            return s.str();
-        }
-
-        friend std::ostream &operator << (std::ostream &f, const File<T> &F){
-            return f<<F.toString();
-        }
     
 };

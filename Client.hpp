@@ -3,10 +3,12 @@
 #include <iostream>
 #include <sstream>
 #include <random>
+#include <time.h>
+
 #define TMING 1
-#define TMAXG 20
+#define TMAXG 15
 #define TMINI 5
-#define TMAXI 10
+#define TMAXI 8
 template <typename T>
 
 class Client{
@@ -22,6 +24,9 @@ class Client{
 
     // constructeur
         Client(const T &c=0, Client<T> *s=nullptr,int h=0): suivant(s),tempsGuichet(temps_Guichet()), tempsImpatience(temps_Impatience()),heureArrivee(h){clt=c;} ;     
+
+    // destructeur
+        ~Client(){}
 
     // accesseurs
         const T &getClient() const{
@@ -70,7 +75,8 @@ class Client{
         }
 
 
-    
+//--------------Méthodes de base de manipulation de la classe Client--------------------------------- 
+
     /* 
      * Rôle: utilise la loi uniforme entre TMING et TMAXG pour retourner le temps passé au guichet par un client                
      */
@@ -86,8 +92,12 @@ class Client{
      * Rôle: utilise la loi uniforme entre TMINI et TMAXI pour retourner le temps de patience d'un client                
      */
     int temps_Impatience(){
-        srand(time(0));
-        return (rand()%(TMINI-TMAXI+1)+1);
+        std::random_device rd;  
+        std::mt19937 gen(rd()); 
+        std::uniform_int_distribution<> distrib(TMINI, TMAXI);
+        return distrib(gen);
+        //srand(time(0));
+        //return (rand()%(15-20+1)+1);
     }
 
 
