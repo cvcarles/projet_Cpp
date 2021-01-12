@@ -200,7 +200,6 @@ class FileChainee: public virtual File<T> {
 
             i++;
                 f1->defiler();
-                    refresh();
 } 
         mvprintw(numero, (13+2*i+k),"]------->               ");
         mvprintw(numero, (22+2*i+k),"%d",clientDefile);
@@ -221,27 +220,30 @@ class FileChainee: public virtual File<T> {
         mvprintw(numero, 13+1,"%d",f1->premier());
 
         mvprintw(numero, 13+2,"|");
-refresh();
+        mvprintw(numero, 13+3," ");
+
+        delay_output(1000);
+
         f1->defiler();
         int i=0;
         int j=0;
         int k=0;
         while (!f1->estVide()){  
-            mvprintw(numero, 15+i+j,"%d",f1->premier());
+            mvprintw(numero, 17+i+j,"%d",f1->premier());
              if ((f1->premier()/10)<1){j=j+1;}
             else if((f1->premier()/10)<10){j=j+2;
                                            k=k+1;}
             else { j=j+3;
                     k=2+k;}
 
-            mvprintw(numero, 15+j+i," ");
+            mvprintw(numero, 17+j+i," ");
             i++;
                 f1->defiler();
-                   refresh();
 
  } 
         
-        mvprintw(numero, (13+2*i+k),"]");
+        mvprintw(numero, (17+2*i+k),"]             ");
+            refresh();
         delay_output(1000);
 
         this->afficherDefiler(numero,this->cpremier->getClient(),false, position);          // après avoir été servi, le client est défilé, on appelle donc la fonction corespondante pour afficher défilé
