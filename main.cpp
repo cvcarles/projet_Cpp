@@ -1,3 +1,5 @@
+#include <curses.h>
+#include <stdlib.h>
 #include<iostream>
 #include <string>
 #include <cstring>
@@ -8,21 +10,33 @@
 //#include "FileChainee.hpp"
 //#include "Guichet.hpp"
 #include "Poste.hpp"
-#define TEMPOUVERTURE 480
-#define NOMBREGUICHET 4
+#define TEMPOUVERTURE 50
+#define NOMBREGUICHET 1
+
 
 
 using namespace std;
+void init_curses(){        
+        initscr();        
+        start_color();       
+        init_pair(1,COLOR_WHITE,COLOR_BLUE);       
+         init_pair(2,COLOR_BLUE,COLOR_WHITE);        
+        init_pair(3,COLOR_RED,COLOR_WHITE);        
+         curs_set(0);        
+         noecho();        
+         keypad(stdscr,TRUE);
+}
 
 int main(){
     
+ 
     Poste<int> poste(TEMPOUVERTURE,NOMBREGUICHET);
          
    int compte=1;
 
   
 
-    //poste.algoPrincipal(&compte); 
+  poste.algoPrincipal(&compte); 
   /*  FileChainee<int> f1;
     
     Guichet<int> guichet1(f1);
@@ -39,7 +53,7 @@ int main(){
  */
    //(f1.defilerImpatient(4)).afficherAttente(); 
 
-    poste.algoPrincipal(&compte);
+    //poste.algoPrincipal(&compte);
     return EXIT_SUCCESS; 
 
     }

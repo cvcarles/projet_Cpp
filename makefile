@@ -17,4 +17,4 @@ main.o: File.hpp FileChainee.hpp Client.hpp Poste.hpp Guichet.hpp
 
 .PHONY: clean
 clean:
-	rm -f *.o *~ core $(PROG)
+	rm -lcurses -f *.o *~ core $(PROG)

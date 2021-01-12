@@ -99,7 +99,7 @@ class FileChainee: public virtual File<T> {
      * Rôle: défile le client impatient au numéro de guichet, tous deux passés en paramètre   
      *       et retourne la file actualisée sans le client impatient      
      */
-    FileChainee<T> defilerImpatient(Client<T> *impatient, int numero, int t){
+    FileChainee<T> defilerImpatient(Client<T> *impatient, int numero, int t, int &position){
         FileChainee<T> *copie= new FileChainee<T>(*(this));                         // on duplique la file courante pour ne modifier que la temporaire
         FileChainee<T> nouvelle=FileChainee<T>();                                   // on créé une nouvelle file 
         while (!copie->estVide()){
@@ -108,7 +108,7 @@ class FileChainee: public virtual File<T> {
             }
             copie->defiler();
         }
-        nouvelle.afficherDefiler(numero,impatient->getClient(),true);
+        nouvelle.afficherDefiler(numero,impatient->getClient(),true, position);
         return nouvelle;
     }
 
@@ -145,17 +145,32 @@ class FileChainee: public virtual File<T> {
     /* 
      * Rôle: affiche la file d'attente courante lorsque qu'un client est enfilé au guichet dont le numéro est passé en paramètres                 
      */
-    void afficherEnfiler(int numero){
+    void afficherEnfiler(int numero,int *position){
         FileChainee<T> *f1= new FileChainee<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
-        std::cout<<"Guichet "<<numero<<": [ ";
+        int i=0;
+        int j=0;
+        int k=0;
             while (f1->premier()!=this->dernier()){
-            std::cout<<f1->premier()<<" ";
-                f1->defiler();
-            } 
+                
+            mvprintw(numero, 13+j+i,"%d",f1->premier());
+      
+            if ((f1->premier()/10)<1){j=j+1;}
+            else if((f1->premier()/10)<10){j=j+2;
+                                           k=k+1;}
+            else { j=j+3;
+                    k=2+k;}
+            mvprintw(numero, 13+i+j," ");
 
-        std::cout<<"] <-------"<< *(this->cdernier);
-        std::cout<<   std::endl;
-        std::cout<<std::endl;
+                f1->defiler();
+                delay_output(500);
+            i++;
+            } 
+        *position=13+2*i+k;
+        mvprintw(numero, (*position),"]<-------                    ");
+        mvprintw(numero, (22+2*i+k),"%d",(this->dernier()));
+                                        refresh();
+
+       
     }
 
 
@@ -164,39 +179,77 @@ class FileChainee: public virtual File<T> {
      *       prend en parmètre le numero de guichet, le chiffre du client défilé et si on défile 
      *          à cause d'un client impatient ( true ) ou parce qu'il a été servi ( false )           
      */
-    void afficherDefiler(int numero,T clientDefile,bool impatient){
+    void afficherDefiler(int numero,T clientDefile,bool impatient, int &position){
         FileChainee<T> *f1= new FileChainee<T>(*(this));              // on duplique la file courante pour ne modifier que la temporaire
-        std::cout<<"Guichet "<<numero<<": [ ";
         if (!impatient){
             f1->defiler();
         }
+        int i=0;
+        int j=0;
+        int k=0;
+        while (!f1->estVide()){
+            mvprintw(numero, 13+j+i,"%d",f1->premier());
+            
+            if ((f1->premier()/10)<1){j=j+1;}
+            else if((f1->premier()/10)<10){j=j+2;
+                                           k=k+1;}
+            else { j=j+3;
+                    k=2+k;}
+            mvprintw(numero, 13+i+j," ");
+                            delay_output(1000);
 
-        while (!f1->estVide()){        
-            std::cout<<f1->premier()<<" ";
-            f1->defiler();
-        }
-        std::cout<<"] -------> "<< clientDefile<<std::endl;
-        std::cout<<std::endl;
+            i++;
+                f1->defiler();
+                    refresh();
+} 
+        mvprintw(numero, (13+2*i+k),"]------->               ");
+        mvprintw(numero, (22+2*i+k),"%d",clientDefile);
+                                            refresh();
+
+
+
     }
 
 
     /* 
      * Rôle: affiche la file d'attente courante avec le client servi au guichet dont le numéro est passé en paramètres         
      */
-    void afficherFin(int numero){
+    void afficherFin(int numero, int &position){
         FileChainee<T> *f1= new FileChainee<T>(*(this));          // on duplique la file courante pour ne modifier que la temporaire
-        std::cout<<"Guichet "<<numero<<": [ |";
-        std::cout<<f1->premier()<<"| ";
-        f1->defiler();
+        mvprintw(numero, 13,"|");
 
+        mvprintw(numero, 13+1,"%d",f1->premier());
+
+        mvprintw(numero, 13+2,"|");
+refresh();
+        f1->defiler();
+        int i=0;
+        int j=0;
+        int k=0;
         while (!f1->estVide()){  
-            std::cout<<f1->premier()<<" ";
-            f1->defiler();
-        }
-        std::cout<<"]"<<std::endl;
-        std::cout<<std::endl;
-        this->afficherDefiler(numero,this->cpremier->getClient(),false);          // après avoir été servi, le client est défilé, on appelle donc la fonction corespondante pour afficher défilé
+            mvprintw(numero, 15+i+j,"%d",f1->premier());
+             if ((f1->premier()/10)<1){j=j+1;}
+            else if((f1->premier()/10)<10){j=j+2;
+                                           k=k+1;}
+            else { j=j+3;
+                    k=2+k;}
+
+            mvprintw(numero, 15+j+i," ");
+            i++;
+                f1->defiler();
+                   refresh();
+
+ } 
+        
+        mvprintw(numero, (13+2*i+k),"]");
+        delay_output(1000);
+
+        this->afficherDefiler(numero,this->cpremier->getClient(),false, position);          // après avoir été servi, le client est défilé, on appelle donc la fonction corespondante pour afficher défilé
+            refresh();
+
+
     }
+
 
 
 
